@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your one-handed keyboard: layout and keys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --panel:#F3F5F9; --ink:#13213C; --ink-soft:#33415C; --line:#9AA5B8;
+  --accent:#1747C2; --accent-ink:#FFFFFF; --focus:#FFC400; --ok:#0F6B3A; --warn:#8A3B00;
+  --k-cream:#F1E7D0; --k-sage:#B9D2B4; --k-peach:#F6BE9A; --k-white:#FFFFFF; --k-ink:#13213C; --k-edge:#4A5872;
+  --sel:#1747C2;
+  color-scheme: light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1626; --panel:#18233A; --ink:#F4F6FA; --ink-soft:#D3DAE6; --line:#6B7A96;
+    --accent:#8FB0FF; --accent-ink:#0E1626; --focus:#FFC400; --ok:#6FE3A1; --warn:#FFB27A; --sel:#8FB0FF; --k-edge:#9AA8C0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1626; --panel:#18233A; --ink:#F4F6FA; --ink-soft:#D3DAE6; --line:#6B7A96;
+  --accent:#8FB0FF; --accent-ink:#0E1626; --focus:#FFC400; --ok:#6FE3A1; --warn:#FFB27A; --sel:#8FB0FF; --k-edge:#9AA8C0;
+  color-scheme: dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",Verdana,"Segoe UI",Arial,sans-serif;font-size:20px;line-height:1.5}
+main{max-width:1100px;margin:0 auto;padding:24px 20px 120px}
+h1{font-size:2.2rem;line-height:1.15;margin:.2em 0 .4em}
+h2{font-size:1.6rem;line-height:1.2;margin:1.2em 0 .4em}
+h3{font-size:1.25rem;margin:1em 0 .3em}
+p{max-width:62ch;margin:.4em 0 .8em}
+.muted{color:var(--ink-soft)}
+button,select,input,textarea{font:inherit;color:inherit}
+button{min-height:52px;padding:10px 20px;border-radius:12px;border:2px solid var(--ink);background:var(--bg);cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+button:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.progress{display:flex;gap:6px;margin:8px 0 20px;flex-wrap:wrap}
+.progress span{padding:6px 12px;border-radius:999px;border:2px solid var(--line);font-size:1rem;color:var(--ink-soft)}
+.progress span.on{border-color:var(--ink);color:var(--ink);font-weight:700}
+.navbar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:2px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;gap:12px;z-index:5}
+.navbar .in{max-width:1100px;margin:0 auto;width:100%;display:flex;justify-content:space-between;gap:12px}
+.panel{background:var(--panel);border-radius:16px;padding:18px 20px;margin:14px 0}
+/* keyboard */
+.kbwrap{overflow-x:auto;padding:6px 0 12px}
+.kb{display:grid;grid-template-columns:repeat(12,var(--ks)) 18px var(--ks) 8px calc(var(--ks)*1.6);grid-template-rows:repeat(10,var(--ks));gap:6px;--ks:clamp(40px,5.4vw,62px);width:max-content}
+.key{border:2px solid var(--k-edge);border-radius:10px;color:var(--k-ink);font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px;line-height:1.05;position:relative;font-size:clamp(13px,1.9vw,19px);min-height:0}
+button.key{min-height:0;padding:2px}
+.key.small{font-size:clamp(11px,1.45vw,15px)}
+.g-cream{background:var(--k-cream)} .g-sage{background:var(--k-sage)} .g-peach{background:var(--k-peach)} .g-white{background:var(--k-white)}
+.key.sel{outline:5px solid var(--sel);outline-offset:2px;z-index:2}
+.key.swapsrc{outline:5px dashed var(--sel);outline-offset:2px}
+.key.hl{box-shadow:inset 0 0 0 4px var(--k-ink)}
+.key .badges{position:absolute;top:2px;right:4px;font-size:13px;line-height:1}
+.key.changed::after{content:"";position:absolute;left:4px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--k-ink)}
+.wheel{grid-column:14;grid-row:5/7;border-radius:12px;background:repeating-linear-gradient(0deg,#2B2F36 0 4px,#4A505A 4px 7px);border:2px solid var(--k-edge)}
+.stick{grid-column:16;grid-row:4/8;align-self:center;justify-self:center;width:calc(var(--ks)*1.4);height:calc(var(--ks)*1.4);border-radius:50%;background:radial-gradient(circle,#C0392B 0 30%,#2B2F36 31% 60%,#9AA5B8 61%);border:2px solid var(--k-edge)}
+.kblegend{font-size:1rem;color:var(--ink-soft);margin-top:6px}
+.side-label{grid-column:14/17;grid-row:8;font-size:.9rem;color:var(--ink-soft);align-self:start;text-align:center}
+.near{font-size:1rem;color:var(--ink-soft);text-align:center;margin-top:6px}
+/* choices */
+.choices{display:flex;flex-wrap:wrap;gap:10px}
+.choices button{min-width:64px}
+.chips button{border-radius:999px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+textarea,input[type=text],input[type=search]{width:100%;max-width:640px;border:2px solid var(--ink);border-radius:12px;padding:12px;background:var(--bg);min-height:52px}
+textarea{min-height:120px}
+.keylist{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;max-height:340px;overflow:auto;padding:4px;margin-top:10px}
+.keylist button{min-height:48px;padding:6px 8px}
+.changes li{margin:.3em 0}
+.sumtable{border-collapse:collapse;width:100%;max-width:900px}
+.sumtable td,.sumtable th{border:2px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.ok{color:var(--ok);font-weight:700}.warn{color:var(--warn);font-weight:700}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+@media (max-width:640px){body{font-size:18px}h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<div class="navbar" id="nav"><div class="in"><button id="back">Back</button><button id="next" class="primary">Next</button></div></div>
+<script>
+const LAYOUTS={"QWERTY":[[0,1,"Caps","nav"],[1,0,"PgUp","nav"],[1,1,"PgDn","nav"],[1,2,"Copy","shortcut"],[1,3,"Paste","shortcut"],[1,4,"Cut","shortcut"],[1,5,"Undo","shortcut"],[2,0,"-","punct"],[2,1,"=","punct"],[2,2,"[","punct"],[2,3,"]","punct"],[2,4,"\\","punct"],[2,5,"'","punct"],[2,6,"Del","nav"],[2,7,"End","nav"],[3,0,"Ctrl","mod"],[3,1,"Win","mod"],[3,2,"Alt","mod"],[3,3,"Fn","mod"],[3,4,"Space","mod"],[3,5,"Home","nav"],[3,6,"←","nav"],[3,7,"↓","nav"],[3,8,"↑","nav"],[3,9,"→","nav"],[3,10,"Shift","mod"],[4,0,"Shift","mod"],[4,1,"Z","letter"],[4,2,"X","letter"],[4,3,"C","letter"],[4,4,"V","letter"],[4,5,"B","letter"],[4,6,"N","letter"],[4,7,"M","letter"],[4,8,",","punct"],[4,9,".","punct"],[4,10,"/","punct"],[4,11,"Enter","mod"],[5,0,"Esc","mod"],[5,1,"A","letter"],[5,2,"S","letter"],[5,3,"D","letter"],[5,4,"F","letter"],[5,5,"G","letter"],[5,6,"H","letter"],[5,7,"J","letter"],[5,8,"K","letter"],[5,9,"L","letter"],[5,10,";","punct"],[5,11,"R-Click","mouse"],[6,0,"Tab","mod"],[6,1,"Q","letter"],[6,2,"W","letter"],[6,3,"E","letter"],[6,4,"R","letter"],[6,5,"T","letter"],[6,6,"Y","letter"],[6,7,"U","letter"],[6,8,"I","letter"],[6,9,"O","letter"],[6,10,"P","letter"],[6,11,"L-Click","mouse"],[7,0,"`","punct"],[7,1,"1","num"],[7,2,"2","num"],[7,3,"3","num"],[7,4,"4","num"],[7,5,"5","num"],[7,6,"6","num"],[7,7,"7","num"],[7,8,"8","num"],[7,9,"9","num"],[7,10,"0","num"],[7,11,"Bksp","mod"],[8,1,"F1","fkey"],[8,2,"F2","fkey"],[8,3,"F3","fkey"],[8,4,"F4","fkey"],[8,5,"F5","fkey"],[8,6,"F6","fkey"],[8,7,"F7","fkey"],[8,8,"F8","fkey"],[8,9,"F9","fkey"],[8,10,"F10","fkey"],[8,11,"F11","fkey"],[9,3,"F12","fkey"],[9,4,"PrtSc","nav"],[9,5,"Insert","nav"],[9,6,"Dictate","shortcut"]],"Design A":[[0,1,"Caps","nav"],[1,0,"PgUp","nav"],[1,1,"PgDn","nav"],[1,2,"Copy","shortcut"],[1,3,"Paste","shortcut"],[1,4,"Cut","shortcut"],[1,5,"Undo","shortcut"],[2,0,"-","punct"],[2,1,"=","punct"],[2,2,"[","punct"],[2,3,"]","punct"],[2,4,"\\","punct"],[2,5,"Del","nav"],[2,6,"Home","nav"],[2,7,"End","nav"],[3,0,"←","nav"],[3,1,"↓","nav"],[3,2,"↑","nav"],[3,3,"→","nav"],[3,4,"'","punct"],[3,5,"Ctrl","mod"],[3,6,"Win","mod"],[3,7,"Alt","mod"],[3,8,"Fn","mod"],[3,9,"Shift","mod"],[3,10,"Space","mod"],[4,0,"N","letter"],[4,1,"M","letter"],[4,2,",","punct"],[4,3,".","punct"],[4,4,"/","punct"],[4,5,"Shift","mod"],[4,6,"Z","letter"],[4,7,"X","letter"],[4,8,"C","letter"],[4,9,"V","letter"],[4,10,"B","letter"],[4,11,"Enter","mod"],[5,0,"H","letter"],[5,1,"J","letter"],[5,2,"K","letter"],[5,3,"L","letter"],[5,4,";","punct"],[5,5,"Esc","mod"],[5,6,"A","letter"],[5,7,"S","letter"],[5,8,"D","letter"],[5,9,"F","letter"],[5,10,"G","letter"],[5,11,"R-Click","mouse"],[6,0,"Y","letter"],[6,1,"U","letter"],[6,2,"I","letter"],[6,3,"O","letter"],[6,4,"P","letter"],[6,5,"Tab","mod"],[6,6,"Q","letter"],[6,7,"W","letter"],[6,8,"E","letter"],[6,9,"R","letter"],[6,10,"T","letter"],[6,11,"L-Click","mouse"],[7,0,"6","num"],[7,1,"7","num"],[7,2,"8","num"],[7,3,"9","num"],[7,4,"0","num"],[7,5,"`","punct"],[7,6,"1","num"],[7,7,"2","num"],[7,8,"3","num"],[7,9,"4","num"],[7,10,"5","num"],[7,11,"Bksp","mod"],[8,1,"F1","fkey"],[8,2,"F2","fkey"],[8,3,"F3","fkey"],[8,4,"F4","fkey"],[8,5,"F5","fkey"],[8,6,"F6","fkey"],[8,7,"F7","fkey"],[8,8,"F8","fkey"],[8,9,"F9","fkey"],[8,10,"F10","fkey"],[8,11,"F11","fkey"],[9,3,"F12","fkey"],[9,4,"PrtSc","nav"],[9,5,"Insert","nav"],[9,6,"Dictate","shortcut"]],"Design B":[[0,1,"Caps","nav"],[1,0,"PgUp","nav"],[1,1,"PgDn","nav"],[1,2,"Copy","shortcut"],[1,3,"Paste","shortcut"],[1,4,"Cut","shortcut"],[1,5,"Undo","shortcut"],[2,0,"-","punct"],[2,1,"=","punct"],[2,2,"[","punct"],[2,3,"]","punct"],[2,4,"\\","punct"],[2,5,"Del","nav"],[2,6,"Home","nav"],[2,7,"End","nav"],[3,0,"←","nav"],[3,1,"↓","nav"],[3,2,"↑","nav"],[3,3,"→","nav"],[3,4,"'","punct"],[3,5,"Fn","mod"],[3,6,"Win","mod"],[3,7,"Alt","mod"],[3,8,"Ctrl","mod"],[3,9,"Shift","mod"],[3,10,"Space","mod"],[4,0,"/","punct"],[4,1,".","punct"],[4,2,",","punct"],[4,3,"M","letter"],[4,4,"N","letter"],[4,5,"B","letter"],[4,6,"V","letter"],[4,7,"C","letter"],[4,8,"X","letter"],[4,9,"Z","letter"],[4,10,"Shift","mod"],[4,11,"Enter","mod"],[5,0,";","punct"],[5,1,"L","letter"],[5,2,"K","letter"],[5,3,"J","letter"],[5,4,"H","letter"],[5,5,"G","letter"],[5,6,"F","letter"],[5,7,"D","letter"],[5,8,"S","letter"],[5,9,"A","letter"],[5,10,"Esc","mod"],[5,11,"R-Click","mouse"],[6,0,"P","letter"],[6,1,"O","letter"],[6,2,"I","letter"],[6,3,"U","letter"],[6,4,"Y","letter"],[6,5,"T","letter"],[6,6,"R","letter"],[6,7,"E","letter"],[6,8,"W","letter"],[6,9,"Q","letter"],[6,10,"Tab","mod"],[6,11,"L-Click","mouse"],[7,0,"0","num"],[7,1,"9","num"],[7,2,"8","num"],[7,3,"7","num"],[7,4,"6","num"],[7,5,"5","num"],[7,6,"4","num"],[7,7,"3","num"],[7,8,"2","num"],[7,9,"1","num"],[7,10,"`","punct"],[7,11,"Bksp","mod"],[8,1,"F1","fkey"],[8,2,"F2","fkey"],[8,3,"F3","fkey"],[8,4,"F4","fkey"],[8,5,"F5","fkey"],[8,6,"F6","fkey"],[8,7,"F7","fkey"],[8,8,"F8","fkey"],[8,9,"F9","fkey"],[8,10,"F10","fkey"],[8,11,"F11","fkey"],[9,3,"F12","fkey"],[9,4,"PrtSc","nav"],[9,5,"Insert","nav"],[9,6,"Dictate","shortcut"]]};
+const TEAM_EMAIL="dnguy038@uottawa.ca";
+const STORE="onekey-survey";
+const STEPS=["Welcome","Compare layouts","Change keys","Quick questions","Anything else","Review and send"];
+const GROUP_COLOR={letter:"cream",num:"cream",punct:"cream",mod:"sage",nav:"sage",shortcut:"peach",fkey:"peach",mouse:"white",custom:"peach"};
+const GROUP_OF={};Object.values(LAYOUTS).forEach(l=>l.forEach(([r,c,k,g])=>GROUP_OF[k]=g));
+const LONG=new Set(["Dictate","L-Click","R-Click","Insert","PrtSc","Shift","Space","Paste","Enter","Home","PgUp","PgDn","Undo","Bksp","Caps","Ctrl","Tab","Esc","Copy","Win","Alt","End","Del","Cut"]);
+const EXTRA_KEYS={
+ "Shortcuts":["Copy","Paste","Cut","Undo","Redo","Save","Select All","Find","Dictate (Win+H)","Alt+Tab","Close tab","New tab","Screenshot","Task Manager"],
+ "Mouse":["L-Click","R-Click","Middle click","Double click","Scroll up","Scroll down"],
+ "Modifiers":["Shift","Ctrl","Alt","Win","Fn","AltGr","Menu","Layer 2 (hold)","Layer 2 (toggle)"],
+ "Navigation":["Esc","Tab","Enter","Space","Bksp","Del","Insert","Home","End","PgUp","PgDn","←","→","↑","↓","Caps","PrtSc","Pause","Scroll Lock","Num Lock"],
+ "Function keys":["F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","F13","F14","F15","F16"],
+ "Letters":"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+ "Numbers and symbols":["1","2","3","4","5","6","7","8","9","0","-","=","[","]","\\",";","'",",",".","/","`"],
+ "Media":["Volume up","Volume down","Mute","Play/Pause","Next track","Previous track"]
+};
+let S=load()||fresh();
+function fresh(){return {step:0,ratings:{},reasons:{},favourite:null,base:null,keys:null,changes:[],marks:{},answers:{},comments:{},freeText:"",started:new Date().toISOString()}}
+function load(){try{const v=localStorage.getItem(STORE);return v?JSON.parse(v):null}catch(e){return null}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+let ui={tab:"QWERTY",sel:null,swapFrom:null,filter:""};
+
+function keyHTML(r,c,k,g,opts={}){
+  const col=GROUP_COLOR[g]||"peach"; const pos=`${r},${c}`;
+  const m=(S.marks[pos]||{});
+  const cls=["key","g-"+col]; if(k.length>4||LONG.has(k))cls.push("small");
+  if(opts.interactive&&ui.sel===pos)cls.push("sel"); if(opts.interactive&&ui.swapFrom===pos)cls.push("swapsrc");
+  if(opts.marks&&m.highlight)cls.push("hl"); if(opts.marks&&S.changes.some(x=>x.pos.includes(pos)))cls.push("changed");
+  const badges=opts.marks?((m.frequent?"★":"")+(m.hard?"✋":"")):"";
+  const style=`grid-column:${c+1};grid-row:${10-r}`;
+  const label=`${k}, row ${r+1} from the front, column ${c+1}${m.frequent?", used a lot":""}${m.hard?", hard to reach":""}${m.highlight?", stands out":""}`;
+  const inner=`${esc(k)}${badges?`<span class="badges" aria-hidden="true">${badges}</span>`:""}`;
+  return opts.interactive?`<button class="${cls.join(" ")}" style="${style}" data-pos="${pos}" aria-label="${esc(label)}">${inner}</button>`:`<div class="${cls.join(" ")}" style="${style}" role="img" aria-label="${esc(label)}">${inner}</div>`;
+}
+function keyboard(list,opts={}){
+  return `<div class="kbwrap"><div class="kb" role="group" aria-label="Keyboard layout">${list.map(([r,c,k,g])=>keyHTML(r,c,k,g,opts)).join("")}<div class="wheel" role="img" aria-label="Scroll wheel"></div><div class="stick" role="img" aria-label="Joystick"></div><div class="side-label">Scroll wheel and joystick</div></div></div><p class="near">The bottom row is the row nearest you.</p>`;
+}
+function choiceButtons(name,options,current,attr="data-ans"){
+  return `<div class="choices" role="group">${options.map(o=>`<button ${attr}="${esc(name)}" data-val="${esc(o)}" aria-pressed="${current===o}">${esc(o)}</button>`).join("")}</div>`;
+}
+function commentBox(name,label="Comment (optional)"){
+  return `<label class="sr" for="c-${name}">${label}</label><input type="text" id="c-${name}" data-comment="${name}" placeholder="${label}" value="${esc(S.comments[name]||"")}">`;
+}
+
+const views=[
+// 0 welcome
+()=>`<h1>Help us finish your keyboard</h1>
+<p>This takes about 10 minutes. You’ll compare the three key layouts we built, move or change any keys you want, and answer a few quick questions. Everything works with the mouse; typing is always optional.</p>
+<p>Your answers save on this computer as you go, so you can stop and come back later.</p>
+${keyboard(LAYOUTS["QWERTY"],{})}
+<p class="muted">Colours: cream for letters, numbers and punctuation, green for control and navigation keys, orange for shortcuts and F-keys, white for the mouse buttons.</p>`,
+// 1 compare
+()=>{const L=ui.tab;const reasons=["Feels familiar","Shortcuts easy to reach","Keys too far","Confusing"];
+ return `<h1>Compare the three layouts</h1>
+<p>Look at each layout, then rate it from 1 (don’t like it) to 5 (love it).</p>
+<div class="tabs" role="tablist">${Object.keys(LAYOUTS).map(n=>`<button role="tab" data-tab="${n}" aria-pressed="${n===L}">${n==="QWERTY"?"QWERTY rows":n}</button>`).join("")}</div>
+<p class="muted">${{"QWERTY":"Every row in its normal order.","Design A":"Left-hand letters (with W A S D) moved next to the joystick and scroll wheel.","Design B":"Every row mirrored."}[L]}</p>
+${keyboard(LAYOUTS[L],{})}
+<div class="panel"><h3>Your rating for ${L==="QWERTY"?"QWERTY rows":L}</h3>
+${choiceButtons(L,["1","2","3","4","5"],S.ratings[L],"data-rate")}
+<h3>Why? (optional)</h3><div class="choices chips">${reasons.map(x=>`<button data-reason="${esc(L)}" data-val="${esc(x)}" aria-pressed="${(S.reasons[L]||[]).includes(x)}">${x}</button>`).join("")}</div></div>
+<h2>Which one do you want to start from?</h2>
+${choiceButtons("fav",["QWERTY","Design A","Design B","A mix of these"],S.favourite,"data-fav")}
+${S.favourite==="A mix of these"?`<p>Pick the one closest to what you want; you can change any key on the next page.</p>${choiceButtons("base",["QWERTY","Design A","Design B"],S.base,"data-base")}`:""}`},
+// 2 customize
+()=>{ensureKeys();const sel=ui.sel;const cur=sel?S.keys.find(k=>`${k[0]},${k[1]}`===sel):null;const m=sel?(S.marks[sel]||{}):{};
+ const f=ui.filter.trim().toLowerCase();
+ const lists=Object.entries(EXTRA_KEYS).map(([cat,ks])=>{const hit=ks.filter(k=>!f||k.toLowerCase().includes(f));return hit.length?`<h3>${cat}</h3><div class="keylist">${hit.map(k=>`<button data-to="${esc(k)}">${esc(k)}</button>`).join("")}</div>`:""}).join("");
+ return `<h1>Change any keys you want</h1>
+<p>Starting from <b>${S.base==="QWERTY"?"QWERTY rows":S.base}</b>. Click a key to swap it, change it, or mark it. ${ui.swapFrom?`<span class="warn">Now click the key to swap with.</span>`:""}</p>
+${keyboard(S.keys,{interactive:true,marks:true})}
+<p class="kblegend">★ used a lot &nbsp; ✋ hard to reach &nbsp; thick border = stands out &nbsp; dot = changed</p>
+${cur?`<div class="panel" id="keypanel"><h2>Key: ${esc(cur[2])}</h2>
+<div class="row"><button id="swap">${ui.swapFrom?"Cancel swap":"Swap with another key"}</button>
+<button data-mark="frequent" aria-pressed="${!!m.frequent}">I use this a lot</button>
+<button data-mark="hard" aria-pressed="${!!m.hard}">Hard to reach</button>
+<button data-mark="highlight" aria-pressed="${!!m.highlight}">Make it stand out</button></div>
+<h3>Change this key to…</h3>
+<label class="sr" for="filter">Search keys</label><input type="search" id="filter" placeholder="Search (optional), or pick from the lists" value="${esc(ui.filter)}">
+${lists||`<p>No key matches “${esc(ui.filter)}”.</p>`}
+<h3>Something else</h3><div class="row"><label class="sr" for="custom">Describe the key</label><input type="text" id="custom" placeholder="Describe the key or shortcut you want"><button id="customgo">Use this</button></div>
+</div>`:`<div class="panel"><p>Click any key on the keyboard above to change it.</p></div>`}
+<h2>Your changes</h2>
+${S.changes.length?`<ol class="changes">${S.changes.map(c=>`<li>${esc(describeChange(c))}</li>`).join("")}</ol>`:`<p class="muted">No changes yet. That’s fine if the layout already suits you.</p>`}
+<div class="row"><button id="undo" ${S.changes.length?"":"disabled"}>Undo last change</button><button id="reset">Reset to the original layout</button></div>`},
+// 3 questions
+()=>{const Q=[["f7","Your F7 keycap: which symbol should it have?",["Heart","Star","Dot","Ridge","My own idea"]],
+ ["joystick","Where should the joystick be?",["It’s fine","Closer to the keys","Farther from the keys","Toward me","Away from me"]],
+ ["wheel","Scroll wheel height",["It’s fine","Higher","Lower"]],
+ ["labels","Can you read the key labels?",["Yes, readable","Need bigger text","Need more contrast"]],
+ ["feel","Switch feel and sound",["I like it","Too heavy","Too light","Too loud"]]];
+ const L2=["F1","F2","F3","F5","F6","F9","F12","Print Screen","Caps Lock","PgUp","PgDn","Insert","[ ]","=","\\","` ~"];
+ const sel=S.answers.layer2||[];
+ return `<h1>A few quick questions</h1>${Q.map(([n,q,o])=>`<div class="panel"><h3>${q}</h3>${choiceButtons(n,o,S.answers[n])}${commentBox(n)}</div>`).join("")}
+<div class="panel"><h3>Which keys are OK on a second layer (held with Fn)?</h3><p class="muted">Pick all that apply.</p>
+<div class="choices">${L2.map(k=>`<button data-l2="${esc(k)}" aria-pressed="${sel.includes(k)}">${esc(k)}</button>`).join("")}</div>${commentBox("layer2","Other keys for the second layer (optional)")}</div>`},
+// 4 anything else
+()=>`<h1>Anything else?</h1><p>Anything you still can’t do with one hand, or anything you’d change. This is optional.</p>
+<label class="sr" for="free">Anything else</label><textarea id="free" placeholder="Optional">${esc(S.freeText)}</textarea>`,
+// 5 review
+()=>{const R=result();return `<h1>Review and send</h1>
+<table class="sumtable"><tbody>
+<tr><th>Ratings</th><td>${Object.keys(LAYOUTS).map(n=>`${n==="QWERTY"?"QWERTY rows":n}: ${S.ratings[n]||"not rated"}${(S.reasons[n]||[]).length?" ("+S.reasons[n].join(", ")+")":""}`).join("<br>")}</td></tr>
+<tr><th>Favourite</th><td>${esc(S.favourite||"not chosen")}${S.base&&S.base!==S.favourite?" (started from "+esc(S.base)+")":""}</td></tr>
+<tr><th>Key changes</th><td>${S.changes.length?S.changes.map(c=>esc(describeChange(c))).join("<br>"):"None"}</td></tr>
+<tr><th>Marked keys</th><td>${markSummary()||"None"}</td></tr>
+${Object.entries({f7:"F7 symbol",joystick:"Joystick",wheel:"Scroll wheel",labels:"Labels",feel:"Switch feel"}).map(([k,l])=>`<tr><th>${l}</th><td>${esc(S.answers[k]||"not answered")}${S.comments[k]?" — "+esc(S.comments[k]):""}</td></tr>`).join("")}
+<tr><th>Second layer OK</th><td>${esc((S.answers.layer2||[]).join(", ")||"none chosen")}${S.comments.layer2?" — "+esc(S.comments.layer2):""}</td></tr>
+<tr><th>Anything else</th><td>${esc(S.freeText||"—")}</td></tr></tbody></table>
+<h2>Send your answers</h2>
+<div class="row"><button class="primary" id="email">Email my answers</button><button id="copy">Copy my answers</button><button id="download">Download my answers</button></div>
+<p id="sendmsg" class="muted" role="status">“Email my answers” opens your email app with everything filled in. If it doesn’t open, use “Copy my answers” and paste them into an email to ${TEAM_EMAIL}.</p>
+${keyboard(S.keys||LAYOUTS[S.base||"QWERTY"],{marks:true})}`}
+];
+function ensureKeys(){if(!S.base)S.base=S.favourite&&S.favourite!=="A mix of these"?S.favourite:"QWERTY";if(!S.keys)S.keys=JSON.parse(JSON.stringify(LAYOUTS[S.base]))}
+function describeChange(c){return c.type==="swap"?`Swapped “${c.from}” and “${c.to}”`:`Changed “${c.from}” to “${c.to}”`}
+function markSummary(){const out=[];for(const [pos,m] of Object.entries(S.marks)){const k=(S.keys||[]).find(x=>`${x[0]},${x[1]}`===pos);if(!k)continue;const t=[m.frequent&&"used a lot",m.hard&&"hard to reach",m.highlight&&"stands out"].filter(Boolean);if(t.length)out.push(`${esc(k[2])}: ${t.join(", ")}`)}return out.join("<br>")}
+function result(){ensureKeys();return {submitted:new Date().toISOString(),ratings:Object.fromEntries(Object.keys(LAYOUTS).map(n=>[n,{rating:S.ratings[n]?+S.ratings[n]:null,reasons:S.reasons[n]||[]}])),favourite:S.favourite,base_layout:S.base,
+ final_layout:S.keys.map(([r,c,k,g])=>{const m=S.marks[`${r},${c}`]||{};return {row:r,col:c,key:k,frequent:!!m.frequent,hard_to_reach:!!m.hard,highlight:!!m.highlight}}),
+ changes:S.changes,answers:Object.fromEntries(["f7","joystick","wheel","labels","feel"].map(k=>[k,{choice:S.answers[k]||null,comment:S.comments[k]||""}])),
+ second_layer_ok:{keys:S.answers.layer2||[],comment:S.comments.layer2||""},anything_else:S.freeText}}
+function textSummary(){const d=document.createElement("div");d.innerHTML=document.querySelector(".sumtable").outerHTML;return [...d.querySelectorAll("tr")].map(tr=>tr.children[0].textContent+": "+tr.children[1].innerText.replace(/\n/g,"; ")).join("\n")}
+
+function render(){
+  const app=document.getElementById("app");
+  app.innerHTML=`<div class="progress" aria-label="Progress">${STEPS.map((s,i)=>`<span class="${i===S.step?"on":""}" ${i===S.step?'aria-current="step"':""}>${i+1}. ${s}</span>`).join("")}</div>`+views[S.step]();
+  document.getElementById("back").disabled=S.step===0;
+  const nx=document.getElementById("next");nx.style.visibility=S.step===STEPS.length-1?"hidden":"visible";
+  nx.textContent=S.step===0?"Start":"Next";
+  nx.disabled=S.step===1&&!(S.favourite&&(S.favourite!=="A mix of these"||S.base));
+  bind();save();
+}
+function go(d){S.step=Math.max(0,Math.min(STEPS.length-1,S.step+d));ui.sel=null;ui.swapFrom=null;ui.filter="";render();window.scrollTo(0,0)}
+document.getElementById("back").onclick=()=>go(-1);
+document.getElementById("next").onclick=()=>go(1);
+
+function bind(){
+  const $$=s=>[...document.querySelectorAll(s)];
+  $$("[data-tab]").forEach(b=>b.onclick=()=>{ui.tab=b.dataset.tab;render()});
+  $$("[data-rate]").forEach(b=>b.onclick=()=>{S.ratings[b.dataset.rate]=b.dataset.val;render()});
+  $$("[data-reason]").forEach(b=>b.onclick=()=>{const L=b.dataset.reason,v=b.dataset.val,a=S.reasons[L]||(S.reasons[L]=[]);const i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);render()});
+  $$("[data-fav]").forEach(b=>b.onclick=()=>{const v=b.dataset.val;if(S.favourite!==v){S.favourite=v;if(v!=="A mix of these"){if(S.base!==v){S.base=v;S.keys=null;S.changes=[];S.marks={}}}else{S.base=null;S.keys=null;S.changes=[];S.marks={}}}render()});
+  $$("[data-base]").forEach(b=>b.onclick=()=>{if(S.base!==b.dataset.val){S.base=b.dataset.val;S.keys=null;S.changes=[];S.marks={}}render()});
+  $$("[data-ans]").forEach(b=>b.onclick=()=>{S.answers[b.dataset.ans]=b.dataset.val;render()});
+  $$("[data-l2]").forEach(b=>b.onclick=()=>{const a=S.answers.layer2||(S.answers.layer2=[]);const v=b.dataset.l2,i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);render()});
+  $$("[data-comment]").forEach(i=>i.oninput=()=>{S.comments[i.dataset.comment]=i.value;save()});
+  const free=document.getElementById("free");if(free)free.oninput=()=>{S.freeText=free.value;save()};
+  $$("button.key").forEach(b=>b.onclick=()=>{const pos=b.dataset.pos;
+    if(ui.swapFrom&&ui.swapFrom!==pos){const A=S.keys.find(k=>`${k[0]},${k[1]}`===ui.swapFrom),B=S.keys.find(k=>`${k[0]},${k[1]}`===pos);
+      S.changes.push({type:"swap",from:A[2],to:B[2],pos:[ui.swapFrom,pos],before:[[...A],[...B]]});
+      const t=[A[2],A[3]];A[2]=B[2];A[3]=B[3];B[2]=t[0];B[3]=t[1];
+      const mA=S.marks[ui.swapFrom],mB=S.marks[pos];if(mB)S.marks[ui.swapFrom]=mB;else delete S.marks[ui.swapFrom];if(mA)S.marks[pos]=mA;else delete S.marks[pos];
+      ui.swapFrom=null;ui.sel=pos;render();document.querySelector(`[data-pos="${pos}"]`)?.focus();return}
+    ui.swapFrom=null;ui.sel=pos;ui.filter="";render();document.getElementById("keypanel")?.scrollIntoView({block:"nearest"});document.querySelector(`[data-pos="${pos}"]`)?.focus({preventScroll:true})});
+  const sw=document.getElementById("swap");if(sw)sw.onclick=()=>{ui.swapFrom=ui.swapFrom?null:ui.sel;render()};
+  $$("[data-mark]").forEach(b=>b.onclick=()=>{const m=S.marks[ui.sel]||(S.marks[ui.sel]={});m[b.dataset.mark]=!m[b.dataset.mark];render()});
+  const flt=document.getElementById("filter");if(flt)flt.oninput=()=>{ui.filter=flt.value;const p=flt.selectionStart;render();const n=document.getElementById("filter");n.focus();n.setSelectionRange(p,p)};
+  const setKey=v=>{const k=S.keys.find(x=>`${x[0]},${x[1]}`===ui.sel);if(!k||!v||k[2]===v)return;S.changes.push({type:"change",from:k[2],to:v,pos:[ui.sel],before:[[...k]]});k[2]=v;k[3]=GROUP_OF[v]||"custom";render()};
+  $$("[data-to]").forEach(b=>b.onclick=()=>setKey(b.dataset.to));
+  const cg=document.getElementById("customgo");if(cg)cg.onclick=()=>setKey(document.getElementById("custom").value.trim());
+  const un=document.getElementById("undo");if(un)un.onclick=()=>{const c=S.changes.pop();if(!c)return;c.before.forEach(b=>{const k=S.keys.find(x=>x[0]===b[0]&&x[1]===b[1]);k[2]=b[2];k[3]=b[3]});render()};
+  const rs=document.getElementById("reset");if(rs)rs.onclick=()=>{if(!confirm("Reset all your key changes and marks?"))return;S.keys=null;S.changes=[];S.marks={};ui.sel=null;render()};
+  const em=document.getElementById("email");if(em)em.onclick=()=>{let body="My answers for the one-handed keyboard:\n\n"+textSummary();if(body.length>1800)body=body.slice(0,1750)+"\n\n(The list is long: I’ve also attached the downloaded answers file.)";location.href=`mailto:${TEAM_EMAIL}?subject=${encodeURIComponent("Keyboard layout answers")}&body=${encodeURIComponent(body)}`;sendNote("Your email app should open with your answers. Press Send there.")};
+  const cp=document.getElementById("copy");if(cp)cp.onclick=async()=>{const t="My answers for the one-handed keyboard:\n\n"+textSummary()+"\n\n---\n"+JSON.stringify(result());try{await navigator.clipboard.writeText(t);sendNote("Copied. Paste it into an email to "+TEAM_EMAIL+".")}catch(e){sendNote("Copy didn’t work here. Use “Download my answers” instead.")}};
+  const dl=document.getElementById("download");if(dl)dl.onclick=()=>downloadFile();
+  if(S.step===STEPS.length-1)trySave();
+}
+function sendNote(t){const m=document.getElementById("sendmsg");if(m)m.textContent=t}
+async function downloadFile(){const data=JSON.stringify(result(),null,1);const name="keyboard-answers.json";
+  try{if(window.claude&&claude.use){const d=await claude.use("downloads");if(d){await d.save({filename:name,data});sendNote("Saved. Attach the file to an email to "+TEAM_EMAIL+".");return}}}catch(e){}
+  try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));a.download=name;document.body.appendChild(a);a.click();a.remove();sendNote("Saved as keyboard-answers.json. Attach it to an email to "+TEAM_EMAIL+".")}catch(e){sendNote("Download didn’t work here. Use “Copy my answers” instead.")}}
+let saved=false;
+async function trySave(){if(saved)return;try{if(!(window.claude&&claude.use))return;const db=await claude.use("db");if(!db)return;const id="r"+Date.now();await db.doc("responses/"+id).set({submitted:new Date().toISOString(),json:JSON.stringify(result())});saved=true;sendNote("Your answers were also saved for the team. You can still email or download a copy.")}catch(e){}}
+
+// team view (#team): paste a JSON answer file to see the layout
+function teamView(){
+  document.getElementById("nav").style.display="none";
+  document.getElementById("app").innerHTML=`<h1>Team view</h1><p>Paste the answers (the JSON part) or load the downloaded file to see her final layout.</p>
+<textarea id="tj" placeholder="Paste JSON here"></textarea><div class="row"><button class="primary" id="tshow">Show layout</button><input type="file" id="tf" accept=".json,application/json"></div><div id="tout"></div><div id="tdb"></div>`;
+  const show=t=>{try{const s=t.indexOf("{"),o=JSON.parse(t.slice(s));const keys=o.final_layout.map(k=>[k.row,k.col,k.key,GROUP_OF[k.key]||"custom"]);
+    S.marks={};o.final_layout.forEach(k=>{if(k.frequent||k.hard_to_reach||k.highlight)S.marks[`${k.row},${k.col}`]={frequent:k.frequent,hard:k.hard_to_reach,highlight:k.highlight}});S.changes=o.changes||[];
+    document.getElementById("tout").innerHTML=`<h2>Favourite: ${esc(o.favourite)} (base ${esc(o.base_layout)})</h2>${keyboard(keys,{marks:true})}<pre style="white-space:pre-wrap;font-size:16px">${esc(JSON.stringify({ratings:o.ratings,changes:(o.changes||[]).map(describeChange),answers:o.answers,second_layer_ok:o.second_layer_ok,anything_else:o.anything_else},null,1))}</pre>`}
+    catch(e){document.getElementById("tout").innerHTML=`<p class="warn">That doesn’t look like an answers file. Paste everything after the “---” line, or load the .json file.</p>`}};
+  document.getElementById("tshow").onclick=()=>show(document.getElementById("tj").value);
+  document.getElementById("tf").onchange=e=>{const f=e.target.files[0];if(f)f.text().then(show)};
+  (async()=>{try{if(!(window.claude&&claude.use))return;const db=await claude.use("db");if(!db)return;const snap=await db.collection("responses").get();const rows=(snap.docs||[]).map(d=>d.data()).filter(Boolean).map(r=>{try{return JSON.parse(r.json)}catch(e){return null}}).filter(Boolean);if(!rows.length)return;
+    document.getElementById("tdb").innerHTML=`<h2>Saved responses (${rows.length})</h2>`+rows.map((r,i)=>`<button data-r="${i}">${esc(r.submitted||"response "+(i+1))}</button>`).join(" ");
+    document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>show(JSON.stringify(rows[+b.dataset.r])))}catch(e){}})();
+}
+if(location.hash==="#team")teamView();else render();
+window.addEventListener("hashchange",()=>{if(location.hash==="#team")teamView();else{document.getElementById("nav").style.display="";render()}});
+</script>
+</body>
+</html>
