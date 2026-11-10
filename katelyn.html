@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Katelyn's Keyboard Layout & Response</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --panel:#F3F5F9; --ink:#13213C; --ink-soft:#33415C; --line:#9AA5B8;
+  --accent:#1747C2; --accent-ink:#FFFFFF; --focus:#FFC400; --ok:#0F6B3A; --warn:#8A3B00;
+  --k-cream:#F1E7D0; --k-sage:#B9D2B4; --k-peach:#F6BE9A; --k-white:#FFFFFF; --k-ink:#13213C; --k-edge:#4A5872;
+  --sel:#1747C2;
+  color-scheme: light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1626; --panel:#18233A; --ink:#F4F6FA; --ink-soft:#D3DAE6; --line:#6B7A96;
+    --accent:#8FB0FF; --accent-ink:#0E1626; --focus:#FFC400; --ok:#6FE3A1; --warn:#FFB27A; --sel:#8FB0FF; --k-edge:#9AA8C0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1626; --panel:#18233A; --ink:#F4F6FA; --ink-soft:#D3DAE6; --line:#6B7A96;
+  --accent:#8FB0FF; --accent-ink:#0E1626; --focus:#FFC400; --ok:#6FE3A1; --warn:#FFB27A; --sel:#8FB0FF; --k-edge:#9AA8C0;
+  color-scheme: dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",Verdana,"Segoe UI",Arial,sans-serif;font-size:20px;line-height:1.5}
+main{max-width:1100px;margin:0 auto;padding:24px 20px 120px}
+h1{font-size:2.2rem;line-height:1.15;margin:.2em 0 .4em}
+h2{font-size:1.6rem;line-height:1.2;margin:1.2em 0 .4em}
+h3{font-size:1.25rem;margin:1em 0 .3em}
+p{max-width:62ch;margin:.4em 0 .8em}
+.muted{color:var(--ink-soft)}
+.panel{background:var(--panel);border-radius:16px;padding:18px 20px;margin:14px 0}
+/* keyboard */
+.kbwrap{overflow-x:auto;padding:6px 0 12px}
+.kb{display:grid;grid-template-columns:repeat(12,var(--ks)) 18px var(--ks) 8px calc(var(--ks)*1.6);grid-template-rows:repeat(10,var(--ks));gap:6px;--ks:clamp(40px,5.4vw,62px);width:max-content}
+.key{border:2px solid var(--k-edge);border-radius:10px;color:var(--k-ink);font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px;line-height:1.05;position:relative;font-size:clamp(13px,1.9vw,19px);min-height:0}
+.key.small{font-size:clamp(11px,1.45vw,15px)}
+.g-cream{background:var(--k-cream)} .g-sage{background:var(--k-sage)} .g-peach{background:var(--k-peach)} .g-white{background:var(--k-white)}
+.key.hl{box-shadow:inset 0 0 0 4px var(--k-ink)}
+.key .badges{position:absolute;top:2px;right:4px;font-size:13px;line-height:1}
+.key.changed::after{content:"";position:absolute;left:4px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--k-ink)}
+.wheel{grid-column:14;grid-row:5/7;border-radius:12px;background:repeating-linear-gradient(0deg,#2B2F36 0 4px,#4A505A 4px 7px);border:2px solid var(--k-edge)}
+.stick{grid-column:16;grid-row:4/8;align-self:center;justify-self:center;width:calc(var(--ks)*1.4);height:calc(var(--ks)*1.4);border-radius:50%;background:radial-gradient(circle,#C0392B 0 30%,#2B2F36 31% 60%,#9AA5B8 61%);border:2px solid var(--k-edge)}
+.kblegend{font-size:1rem;color:var(--ink-soft);margin-top:6px}
+.side-label{grid-column:14/17;grid-row:8;font-size:.9rem;color:var(--ink-soft);align-self:start;text-align:center}
+.near{font-size:1rem;color:var(--ink-soft);text-align:center;margin-top:6px}
+.sumtable{border-collapse:collapse;width:100%;max-width:900px}
+.sumtable td,.sumtable th{border:2px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.back-link{display:inline-block;margin-bottom:16px;color:var(--accent);text-decoration:none;font-weight:bold}
+.back-link:hover{text-decoration:underline}
+.note-box{background:var(--panel);border-left:4px solid var(--accent);padding:12px 16px;margin:16px 0;border-radius:0 8px 8px 0}
+</style>
+</head>
+<body>
+<main>
+  <a href="index.html#team" class="back-link">← Back to Team View</a>
+  <h1>Katelyn's Survey Response</h1>
+  <p class="muted">Submitted via email. Layout customized starting from QWERTY rows.</p>
+
+  <div class="note-box">
+    <strong>Note from Katelyn:</strong> "Please ignore the 'enter' key swap! I pressed it by accident and wasn't sure how to undo. Thanks for putting this together! I feel like I'm really able to tailor the keyboard to my needs with this input."
+  </div>
+
+  <h2>Custom Keyboard Layout</h2>
+  <div id="kbcontainer"></div>
+  <p class="kblegend">★ used a lot &nbsp; ✋ hard to reach &nbsp; thick border = stands out &nbsp; dot = changed</p>
+
+  <h2>Questions & Feedback</h2>
+  <table class="sumtable">
+    <tbody>
+      <tr><th>F7 Symbol</th><td>My own idea — Different colored key + I also like ridge</td></tr>
+      <tr><th>Joystick</th><td>Closer to the keys</td></tr>
+      <tr><th>Scroll Wheel</th><td>It's fine</td></tr>
+      <tr><th>Labels</th><td>Need more contrast — Only on the white keys</td></tr>
+      <tr><th>Switch Feel</th><td class="muted">not answered — Couldn't hear ^^;</td></tr>
+      <tr><th>Second Layer OK</th><td>F12, Print Screen, F1, F2, F3, F9, Insert</td></tr>
+      <tr><th>Anything Else</th><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:24px">Layout Ratings & Customizations</h2>
+  <table class="sumtable">
+    <tbody>
+      <tr>
+        <th>Ratings</th>
+        <td>
+          QWERTY rows: 5 (Feels familiar, Shortcuts easy to reach)<br>
+          Design A: 1 (Confusing, Keys too far)<br>
+          Design B: 1 (Confusing)
+        </td>
+      </tr>
+      <tr><th>Favourite</th><td>QWERTY (started from QWERTY)</td></tr>
+      <tr><th>Key Changes</th><td>Swapped "Home" and "Del" (Enter key swap ignored per client request)</td></tr>
+      <tr>
+        <th>Marked Keys</th>
+        <td>
+          F7: stands out<br>
+          Shift: used a lot<br>
+          Ctrl: used a lot<br>
+          Copy: used a lot<br>
+          Paste: used a lot<br>
+          Enter: hard to reach
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+
+<script>
+const GROUP_COLOR={letter:"cream",num:"cream",punct:"cream",mod:"sage",nav:"sage",shortcut:"peach",fkey:"peach",mouse:"white",custom:"peach"};
+const LONG=new Set(["Dictate","L-Click","R-Click","Insert","PrtSc","Shift","Space","Paste","Enter","Home","PgUp","PgDn","Undo","Bksp","Caps","Ctrl","Tab","Esc","Copy","Win","Alt","End","Del","Cut"]);
+
+// Katelyn's layout: QWERTY base, with Home and Del swapped
+const KATELYN_KEYS = [
+  [0,1,"Caps","nav"],[1,0,"PgUp","nav"],[1,1,"PgDn","nav"],[1,2,"Copy","shortcut"],[1,3,"Paste","shortcut"],[1,4,"Cut","shortcut"],[1,5,"Undo","shortcut"],
+  [2,0,"-","punct"],[2,1,"=","punct"],[2,2,"[","punct"],[2,3,"]","punct"],[2,4,"\\","punct"],[2,5,"'","punct"],[2,6,"Home","nav"],[2,7,"End","nav"],
+  [3,0,"Ctrl","mod"],[3,1,"Win","mod"],[3,2,"Alt","mod"],[3,3,"Fn","mod"],[3,4,"Space","mod"],[3,5,"Del","nav"],[3,6,"←","nav"],[3,7,"↓","nav"],[3,8,"↑","nav"],[3,9,"→","nav"],[3,10,"Shift","mod"],
+  [4,0,"Shift","mod"],[4,1,"Z","letter"],[4,2,"X","letter"],[4,3,"C","letter"],[4,4,"V","letter"],[4,5,"B","letter"],[4,6,"N","letter"],[4,7,"M","letter"],[4,8,",","punct"],[4,9,".","punct"],[4,10,"/","punct"],[4,11,"Enter","mod"],
+  [5,0,"Esc","mod"],[5,1,"A","letter"],[5,2,"S","letter"],[5,3,"D","letter"],[5,4,"F","letter"],[5,5,"G","letter"],[5,6,"H","letter"],[5,7,"J","letter"],[5,8,"K","letter"],[5,9,"L","letter"],[5,10,";","punct"],[5,11,"R-Click","mouse"],
+  [6,0,"Tab","mod"],[6,1,"Q","letter"],[6,2,"W","letter"],[6,3,"E","letter"],[6,4,"R","letter"],[6,5,"T","letter"],[6,6,"Y","letter"],[6,7,"U","letter"],[6,8,"I","letter"],[6,9,"O","letter"],[6,10,"P","letter"],[6,11,"L-Click","mouse"],
+  [7,0,"`","punct"],[7,1,"1","num"],[7,2,"2","num"],[7,3,"3","num"],[7,4,"4","num"],[7,5,"5","num"],[7,6,"6","num"],[7,7,"7","num"],[7,8,"8","num"],[7,9,"9","num"],[7,10,"0","num"],[7,11,"Bksp","mod"],
+  [8,1,"F1","fkey"],[8,2,"F2","fkey"],[8,3,"F3","fkey"],[8,4,"F4","fkey"],[8,5,"F5","fkey"],[8,6,"F6","fkey"],[8,7,"F7","fkey"],[8,8,"F8","fkey"],[8,9,"F9","fkey"],[8,10,"F10","fkey"],[8,11,"F11","fkey"],
+  [9,3,"F12","fkey"],[9,4,"PrtSc","nav"],[9,5,"Insert","nav"],[9,6,"Dictate","shortcut"]
+];
+
+// Marks from Katelyn's response
+const MARKS = {
+  "8,7": { highlight: true }, // F7 stands out
+  "3,10": { frequent: true }, // Shift used a lot
+  "4,0": { frequent: true },  // Shift used a lot
+  "3,0": { frequent: true },  // Ctrl used a lot
+  "1,2": { frequent: true },  // Copy used a lot
+  "1,3": { frequent: true },  // Paste used a lot
+  "4,11": { hard: true }       // Enter hard to reach
+};
+
+// Swapped keys set for dots
+const CHANGED_POS = new Set(["2,6", "3,5"]);
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function keyHTML(r,c,k,g){
+  const col=GROUP_COLOR[g]||"peach"; const pos=`${r},${c}`;
+  const m=(MARKS[pos]||{});
+  const cls=["key","g-"+col]; if(k.length>4||LONG.has(k))cls.push("small");
+  if(m.highlight)cls.push("hl");
+  if(CHANGED_POS.has(pos))cls.push("changed");
+  const badges=(m.frequent?"★":"")+(m.hard?"✋":"");
+  const style=`grid-column:${c+1};grid-row:${10-r}`;
+  const label=`${k}, row ${r+1} from the front, column ${c+1}${m.frequent?", used a lot":""}${m.hard?", hard to reach":""}${m.highlight?", stands out":""}`;
+  const inner=`${esc(k)}${badges?`<span class="badges" aria-hidden="true">${badges}</span>`:""}`;
+  return `<div class="${cls.join(" ")}" style="${style}" role="img" aria-label="${esc(label)}">${inner}</div>`;
+}
+
+function renderKeyboard(){
+  const html = `<div class="kbwrap"><div class="kb" role="group" aria-label="Keyboard layout">${KATELYN_KEYS.map(([r,c,k,g])=>keyHTML(r,c,k,g)).join("")}<div class="wheel" role="img" aria-label="Scroll wheel"></div><div class="stick" role="img" aria-label="Joystick"></div><div class="side-label">Scroll wheel and joystick</div></div></div><p class="near">The bottom row is the row nearest you.</p>`;
+  document.getElementById("kbcontainer").innerHTML = html;
+}
+
+renderKeyboard();
+</script>
+</body>
+</html>
