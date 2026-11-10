@@ -272,20 +272,7 @@ function teamView(){
 <textarea id="tj" placeholder="Paste JSON here"></textarea><div class="row"><button class="primary" id="tshow">Show layout</button><input type="file" id="tf" accept=".json,application/json"></div><div id="tout"></div><div id="tdb"></div>`;
   const show=t=>{try{const s=t.indexOf("{"),o=JSON.parse(t.slice(s));const keys=o.final_layout.map(k=>[k.row,k.col,k.key,GROUP_OF[k.key]||"custom"]);
     S.marks={};o.final_layout.forEach(k=>{if(k.frequent||k.hard_to_reach||k.highlight)S.marks[`${k.row},${k.col}`]={frequent:k.frequent,hard:k.hard_to_reach,highlight:k.highlight}});S.changes=o.changes||[];
-    // helper to format answers as a table
-  const fmtAnswer = (label,v,comment)=>{const c=[];if(v!==null&&v!==undefined)c.push(esc(v));if(comment)c.push(` — ${esc(comment)}`);return c.length?`<td>${c.join("")}</td>`:`<td class="muted">not answered</td>`};
-  const l2keys=o.second_layer_ok.keys.join(", ")||"none";
-  document.getElementById("tout").innerHTML=`<h2>Favourite: ${esc(o.favourite)} (base ${esc(o.base_layout)})</h2>${keyboard(keys,{marks:true})}
-<table class="sumtable"><tbody>
-${Object.entries({f7:"F7 symbol",joystick:"Joystick",wheel:"Scroll wheel",labels:"Labels",feel:"Switch feel"}).map(([k,l])=>`<tr><th>${l}</th>${fmtAnswer(l,o.answers[k]?.choice,o.answers[k]?.comment)}</tr>`).join("")}
-<tr><th>Second layer OK</th><td>${l2keys}${o.second_layer_ok.comment?" — "+esc(o.second_layer_ok.comment):""}</td></tr>
-<tr><th>Anything else</th><td>${esc(o.anything_else||"—")}</td></tr>
-</table>
-<table class="sumtable" style="margin-top:12px"><tbody>
-<tr><th>Ratings</th><td>${Object.keys(LAYOUTS).map(n=>`${n==="QWERTY"?"QWERTY rows":n}: ${o.ratings[n].rating||"not rated"}${o.ratings[n].reasons.length?" ("+o.ratings[n].reasons.join(", ")+")":""}`).join("<br>")}</td></tr>
-<tr><th>Key changes</th><td>${o.changes.length?o.changes.map(c=>esc(describeChange(c))).join("<br>"):"None"}</td></tr>
-<tr><th>Marked keys</th><td>${markSummary()||"None"}</td></tr>
-</tbody></table>`}
+    document.getElementById("tout").innerHTML=`<h2>Favourite: ${esc(o.favourite)} (base ${esc(o.base_layout)})</h2>${keyboard(keys,{marks:true})}<pre style="white-space:pre-wrap;font-size:16px">${esc(JSON.stringify({ratings:o.ratings,changes:(o.changes||[]).map(describeChange),answers:o.answers,second_layer_ok:o.second_layer_ok,anything_else:o.anything_else},null,1))}</pre>`}
     catch(e){document.getElementById("tout").innerHTML=`<p class="warn">That doesn’t look like an answers file. Paste everything after the “---” line, or load the .json file.</p>`}};
   document.getElementById("tshow").onclick=()=>show(document.getElementById("tj").value);
   document.getElementById("tf").onchange=e=>{const f=e.target.files[0];if(f)f.text().then(show)};
